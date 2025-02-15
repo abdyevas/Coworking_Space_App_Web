@@ -8,13 +8,14 @@ import java.time.LocalTime;
 public class Reservations {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reservationID;
+    private int id;
     private String customerName;
-    private LocalDate date;
+    private LocalDate reservationDate;
     private LocalTime startTime;
     private LocalTime endTime;
 
     @ManyToOne
+    @JoinColumn(name = "space_id", referencedColumnName = "id", nullable = false)    
     private Spaces space;
 
     public Reservations() {}
@@ -22,14 +23,14 @@ public class Reservations {
     public Reservations(String customerName, Spaces space, LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.customerName = customerName;
         this.space = space;
-        this.date = date;
+        this.reservationDate = date;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public int getReservationID() { return reservationID; }
+    public int getId() { return id; }
     public String getCustomerName() { return customerName; }
-    public LocalDate getDate() { return date; }
+    public LocalDate getReservationDate() { return reservationDate; }
     public LocalTime getStartTime() { return startTime; }
     public LocalTime getEndTime() { return endTime; }
     public Spaces getSpace() { return space; }

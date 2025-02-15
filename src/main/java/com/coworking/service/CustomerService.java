@@ -24,7 +24,8 @@ public class CustomerService {
     }
 
     public void makeReservation(String customerName, int spaceID, String date, String startTime, String endTime) {
-        Spaces space = spacesRepository.findById(spaceID).orElseThrow();
+        Spaces space = spacesRepository.findById(spaceID)
+            .orElseThrow(() -> new IllegalArgumentException("Space not found with ID: " + spaceID));
         Reservations reservation = new Reservations(customerName, space, LocalDate.parse(date), LocalTime.parse(startTime), LocalTime.parse(endTime));
         reservationsRepository.save(reservation);
         space.setAvailable(false);

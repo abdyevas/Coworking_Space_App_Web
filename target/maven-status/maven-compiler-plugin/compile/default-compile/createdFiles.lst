@@ -1,4 +1,4 @@
-com\coworking\Main.class
+com\coworking\Application.class
 com\coworking\controller\AdminController.class
 com\coworking\service\AdminService.class
 com\coworking\repository\SpacesRepository.class

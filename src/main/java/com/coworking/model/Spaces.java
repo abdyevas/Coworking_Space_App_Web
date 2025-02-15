@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Spaces {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int spaceID;
+    private int id;
     private String type;
     private double price;
     private boolean available = true;
@@ -19,7 +19,7 @@ public class Spaces {
         this.available = true;
     }
 
-    public int getSpaceID() { return spaceID; }
+    public int getId() { return id; }
     public String getType() { return type; }
     public double getPrice() { return price; }
     public boolean isAvailable() { return available; }

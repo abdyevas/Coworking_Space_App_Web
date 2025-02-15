@@ -1,6 +1,7 @@
 package com.coworking.controller;
 
 import com.coworking.service.AdminService;
+import java.util.Collections;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,12 @@ public class AdminController {
     public String deleteSpace(@RequestParam int id) {
         adminService.deleteSpace(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/reservations")
+    public String viewReservations(Model model) {
+        model.addAttribute("reservations", adminService.getAllReservations() != null 
+            ? adminService.getAllReservations() : Collections.emptyList());
+        return "reservations";
     }
 }

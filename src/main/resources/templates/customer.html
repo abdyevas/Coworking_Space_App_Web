@@ -17,16 +17,16 @@
             <th>Actions</th>
         </tr>
         <tr th:each="space : ${spaces}">
-            <td th:text="${space.spaceID}"></td>
+            <td th:text="${space.id}"></td>
             <td th:text="${space.type}"></td>
             <td th:text="${space.price}"></td>
             <td>
                 <form action="/customer/reserve" method="post">
-                    <input type="hidden" name="spaceID" th:value="${space.spaceID}" />
+                    <input type="hidden" name="id" th:value="${space.id}" />
                     <label>Name:</label>
                     <input type="text" name="customerName" required />
                     <label>Date:</label>
-                    <input type="date" name="date" required />
+                    <input type="date" name="reservationDate" required />
                     <label>Start Time:</label>
                     <input type="time" name="startTime" required />
                     <label>End Time:</label>
@@ -49,13 +49,12 @@
             <th>Actions</th>
         </tr>
         <tr th:each="reservation : ${reservations}">
-            <td th:text="${reservation.reservationID}"></td>
-            <td th:text="${reservation.space.type}"></td>
-            <td th:text="${reservation.date}"></td>
-            <td th:text="${#dates.format(reservation.startTime, 'HH:mm')} + ' - ' + ${#dates.format(reservation.endTime, 'HH:mm')}"></td>
-            <td>
+            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.space != null ? reservation.space.type : 'Unknown'}"></td>
+            <td th:text="${reservation.reservationDate}"></td>
+            <td th:text="${reservation.startTime} + ' - ' + ${reservation.endTime}"></td><td>
                 <form th:action="@{/customer/cancel}" method="post">
-                    <input type="hidden" name="id" th:value="${reservation.reservationID}" />
+                    <input type="hidden" name="id" th:value="${reservation.id}" />
                     <button type="submit">Cancel</button>
                 </form>
             </td>

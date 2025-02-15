@@ -32,12 +32,12 @@ public class CustomerController {
     @PostMapping("/reserve")
     public String makeReservation(
             @RequestParam String customerName, 
-            @RequestParam int spaceID, 
-            @RequestParam String date, 
+            @RequestParam int id, 
+            @RequestParam String reservationDate, 
             @RequestParam String startTime, 
             @RequestParam String endTime) {
         
-        customerService.makeReservation(customerName, spaceID, date, startTime, endTime);
+        customerService.makeReservation(customerName, id, reservationDate, startTime, endTime);
         return "redirect:/customer";
     }
 
