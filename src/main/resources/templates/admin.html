@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    
+    <h2>Add New Space</h2>
+    <form action="/admin/add" method="post">
+        <label>Type:</label>
+        <input type="text" name="type" required />
+        <label>Price:</label>
+        <input type="number" name="price" step="0.01" required />
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Existing Spaces</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="space : ${spaces}">
+            <td th:text="${space.id}"></td>
+            <td th:text="${space.type}"></td>
+            <td th:text="${space.price}"></td>
+            <td>
+                <form th:action="@{/admin/delete}" method="post">
+                    <input type="hidden" name="id" th:value="${space.id}" />
+                    <button type="submit">Remove</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <h2>View All Reservations</h2>
+    <a th:href="@{/admin/reservations}" class="button">View Reservations</a>
+
+    <a th:href="@{/}" class="button">Back to Main Menu</a>
+</body>
+</html>
