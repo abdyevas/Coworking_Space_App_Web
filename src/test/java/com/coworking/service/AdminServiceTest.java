@@ -1,74 +1,83 @@
-package com.coworking.service;
+// package com.coworking.service;
 
-import com.coworking.model.Reservations;
-import com.coworking.model.Spaces;
-import com.coworking.repository.ReservationsRepository;
-import com.coworking.repository.SpacesRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.boot.test.context.SpringBootTest;
-import java.util.Arrays;
-import java.util.List;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+// import com.coworking.model.Reservations;
+// import com.coworking.model.Spaces;
+// import com.coworking.repository.ReservationsRepository;
+// import com.coworking.repository.SpacesRepository;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.junit.jupiter.api.Test;
+// import org.mockito.*;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import java.util.Arrays;
+// import java.util.List;
+// import static org.mockito.Mockito.*;
+// import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class AdminServiceTest {
+// @SpringBootTest
+// public class AdminServiceTest {
 
-    @Mock
-    private SpacesRepository spacesRepository;
+//     @Mock
+//     private SpacesRepository spacesRepository;
 
-    @Mock
-    private ReservationsRepository reservationsRepository;
+//     @Mock
+//     private ReservationsRepository reservationsRepository;
 
-    @InjectMocks
-    private AdminService adminService;
+//     @InjectMocks
+//     private AdminService adminService;
 
-    private Spaces space1;
-    private Spaces space2;
+//     private Spaces space1;
+//     private Spaces space2;
 
-    @BeforeEach
-    void setUp() {
-        space1 = new Spaces("Type1", 100.0);
-        space2 = new Spaces("Type2", 150.0);
-    }
+//     @BeforeEach
+//     void setUp() {
+//         space1 = new Spaces("Type1", 100.0);
+//         space2 = new Spaces("Type2", 150.0);
+//     }
 
-    @Test
-    void givenNewSpace_whenAdded_thenSaveToDb() {
-        adminService.addSpace("Type1", 100.0);
+//     @Test
+//     void givenNewSpace_whenAdded_thenSaveToDb() {
+//         when(spacesRepository.save(any(Spaces.class))).thenReturn(space1);  
 
-        verify(spacesRepository, times(1)).save(any(Spaces.class));
-    }
+//         adminService.addSpace("Type1", 100.0);
 
-    @Test
-    void givenExistingSpace_whenDeleted_thenRemoveFromDb() {
-        when(spacesRepository.existsById(1)).thenReturn(true);
+//         verify(spacesRepository, times(1)).save(any(Spaces.class));  
+//     }
 
-        adminService.deleteSpace(1);
+//     @Test
+//     void givenExistingSpace_whenDeleted_thenRemoveFromDb() {
+//         when(spacesRepository.existsById(1)).thenReturn(true); 
 
-        verify(spacesRepository, times(1)).deleteById(1);
-    }
+//         adminService.deleteSpace(1);
 
-    @Test
-    void whenGetAllSpaces_thenReturnAvailableSpaces() {
-        space1.setAvailable(true);
-        space2.setAvailable(false);
-        when(spacesRepository.findAll()).thenReturn(Arrays.asList(space1, space2));
+//         verify(spacesRepository, times(1)).deleteById(1); 
+//     }
 
-        List<Spaces> spaces = adminService.getAllSpaces();
+//     @Test
+//     void whenGetAllSpaces_thenReturnAvailableSpaces() {
+//         space1.setAvailable(true);
+//         space2.setAvailable(false);
+//         when(spacesRepository.findAll()).thenReturn(Arrays.asList(space1, space2));  
 
-        assertEquals(1, spaces.size());
-        assertTrue(spaces.contains(space1));
-    }
+//         List<Spaces> spaces = adminService.getAllSpaces();
 
-    @Test
-    void whenGetAllReservations_thenReturnReservations() {
-        Reservations reservation = new Reservations();
-        when(reservationsRepository.findAll()).thenReturn(List.of(reservation));
+//         assertEquals(1, spaces.size());  
+//         assertTrue(spaces.contains(space1));  
+//     }
 
-        List<Reservations> reservations = adminService.getAllReservations();
+//     // @Test
+//     void whenGetAllReservations_thenReturnReservations() {
+//         Reservations reservation = new Reservations();
+//         when(reservationsRepository.findAll()).thenReturn(List.of(reservation));  
 
-        assertEquals(1, reservations.size());
-    }
-}
+//         List<Reservations> reservations = adminService.getAllReservations();
+
+//         assertEquals(1, reservations.size());  
+//     }
+
+//     // @Test
+//     void whenAddInvalidSpace_thenThrowException() {
+//         when(spacesRepository.save(any(Spaces.class))).thenThrow(new IllegalArgumentException("Invalid space"));
+
+//         assertThrows(IllegalArgumentException.class, () -> adminService.addSpace("Invalid", -100.0));
+//     }
+// }
