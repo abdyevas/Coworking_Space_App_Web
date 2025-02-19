@@ -1,8 +1,8 @@
 package com.coworking.controller;
 
+import com.coworking.facade.CustomerFacade;
 import com.coworking.model.Reservations;
 import com.coworking.model.Spaces;
-import com.coworking.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +12,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
-    private final CustomerService customerService;
+    private final CustomerFacade customerFacade;
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerController(CustomerFacade customerFacade) {
+        this.customerFacade = customerFacade;
     }
 
     @GetMapping
     public String customerDashboard(Model model) {
-        List<Spaces> availableSpaces = customerService.getAvailableSpaces();
-        List<Reservations> reservations = customerService.getAllReservations();
+        List<Spaces> availableSpaces = customerFacade.getAvailableSpaces();
+        List<Reservations> reservations = customerFacade.getAllReservations();
         
         model.addAttribute("spaces", availableSpaces);
         model.addAttribute("reservations", reservations);
@@ -37,13 +37,13 @@ public class CustomerController {
             @RequestParam String startTime, 
             @RequestParam String endTime) {
         
-        customerService.makeReservation(customerName, id, reservationDate, startTime, endTime);
+        customerFacade.makeReservation(customerName, id, reservationDate, startTime, endTime);
         return "redirect:/customer";
     }
 
     @PostMapping("/cancel")
     public String cancelReservation(@RequestParam int id) {
-        customerService.cancelReservation(id);
+        customerFacade.cancelReservation(id);
         return "redirect:/customer";
     }
 }
