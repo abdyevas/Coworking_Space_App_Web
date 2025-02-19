@@ -46,8 +46,6 @@ public class AdminServiceTest {
 
     @Test
     void givenExistingSpace_whenDeleted_thenRemoveFromDb() {
-        when(spacesRepository.existsById(1)).thenReturn(true); 
-
         adminService.deleteSpace(1);
 
         verify(spacesRepository, times(1)).deleteById(1); 
@@ -65,7 +63,7 @@ public class AdminServiceTest {
         assertTrue(spaces.contains(space1));  
     }
 
-    // @Test
+    @Test
     void whenGetAllReservations_thenReturnReservations() {
         Reservations reservation = new Reservations();
         when(reservationsRepository.findAll()).thenReturn(List.of(reservation));  
@@ -75,7 +73,7 @@ public class AdminServiceTest {
         assertEquals(1, reservations.size());  
     }
 
-    // @Test
+    @Test
     void whenAddInvalidSpace_thenThrowException() {
         when(spacesRepository.save(any(Spaces.class))).thenThrow(new IllegalArgumentException("Invalid space"));
 
