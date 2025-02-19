@@ -9,6 +9,9 @@ C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\cow
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\controller\LoginResponse.java
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\dto\LoginUserDto.java
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\dto\RegisterUserDto.java
+C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\facade\AdminFacade.java
+C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\facade\AuthFacade.java
+C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\facade\CustomerFacade.java
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\model\Reservations.java
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\model\Spaces.java
 C:\Users\ThinkPad\Desktop\Anderson\Coworking_Space_App_Web\src\main\java\com\coworking\model\Users.java

@@ -1,6 +1,6 @@
 package com.coworking.controller;
 
-import com.coworking.service.AdminService;
+import com.coworking.facade.AdminFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,8 +17,8 @@ import java.util.Collections;
 class AdminControllerTest {
 
     @Mock
-    private AdminService adminService;
-
+    private AdminFacade adminFacade;
+    
     @Mock
     private Model model;
 
@@ -27,28 +27,30 @@ class AdminControllerTest {
 
     @Test
     void givenAdminDashboard_whenRequested_thenReturnAdminView() {
+        when(adminFacade.getAllSpaces()).thenReturn(Collections.emptyList());
+        
         String view = adminController.adminDashboard(model);
-        verify(adminService, times(1)).getAllSpaces();
+        verify(adminFacade, times(1)).getAllSpaces();
         assertEquals("admin", view);
     }
 
     @Test
     void givenNewSpace_whenAdded_thenRedirectToAdmin() {
         String view = adminController.addSpace("Office", 100.0);
-        verify(adminService, times(1)).addSpace("Office", 100.0);
+        verify(adminFacade, times(1)).addSpace("Office", 100.0);
         assertEquals("redirect:/admin", view);
     }
 
     @Test
     void givenExistingSpace_whenDeleted_thenRedirectToAdmin() {
         String view = adminController.deleteSpace(1);
-        verify(adminService, times(1)).deleteSpace(1);
+        verify(adminFacade, times(1)).deleteSpace(1);
         assertEquals("redirect:/admin", view);
     }
 
     @Test
     void viewReservations_whenRequested_thenReturnReservationView() {
-        when(adminService.getAllReservations()).thenReturn(Collections.emptyList());
+        when(adminFacade.getAllReservations()).thenReturn(Collections.emptyList());
         String viewName = adminController.viewReservations(model);
         assertEquals("reservations", viewName);
         verify(model).addAttribute(eq("reservations"), any());

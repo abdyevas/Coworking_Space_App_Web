@@ -1,6 +1,6 @@
 package com.coworking.controller;
 
-import com.coworking.service.CustomerService;
+import com.coworking.facade.CustomerFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 class CustomerControllerTest {
 
     @Mock
-    private CustomerService customerService;
+    private CustomerFacade customerFacade;
 
     @Mock
     private Model model;
@@ -26,8 +26,8 @@ class CustomerControllerTest {
 
     @Test
     void givenCustomerDashboard_whenRequested_thenReturnCustomerView() {
-        when(customerService.getAvailableSpaces()).thenReturn(Collections.emptyList());
-        when(customerService.getAllReservations()).thenReturn(Collections.emptyList());
+        when(customerFacade.getAvailableSpaces()).thenReturn(Collections.emptyList());
+        when(customerFacade.getAllReservations()).thenReturn(Collections.emptyList());
 
         String view = customerController.customerDashboard(model);
 
@@ -39,14 +39,14 @@ class CustomerControllerTest {
     @Test
     void givenNewReservation_whenSuccessful_thenRedirectToCustomer() {
         String view = customerController.makeReservation("John", 1, "2025-03-01", "10:00", "12:00");
-        verify(customerService, times(1)).makeReservation("John", 1, "2025-03-01", "10:00", "12:00");
+        verify(customerFacade, times(1)).makeReservation("John", 1, "2025-03-01", "10:00", "12:00");
         assertEquals("redirect:/customer", view);
     }
 
     @Test
     void givenExistingReservation_whenCancelled_thenRedirectToCustomer() {
         String view = customerController.cancelReservation(1);
-        verify(customerService, times(1)).cancelReservation(1);
+        verify(customerFacade, times(1)).cancelReservation(1);
         assertEquals("redirect:/customer", view);
     }
 }

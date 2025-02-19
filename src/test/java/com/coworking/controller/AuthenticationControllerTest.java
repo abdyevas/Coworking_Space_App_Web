@@ -2,9 +2,8 @@ package com.coworking.controller;
 
 import com.coworking.dto.LoginUserDto;
 import com.coworking.dto.RegisterUserDto;
+import com.coworking.facade.AuthFacade;
 import com.coworking.model.Users;
-import com.coworking.service.AuthenticationService;
-import com.coworking.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,10 +17,7 @@ import static org.mockito.Mockito.*;
 class AuthenticationControllerTest {
 
     @Mock
-    private JwtService jwtService;
-
-    @Mock
-    private AuthenticationService authenticationService;
+    private AuthFacade authFacade;
 
     @InjectMocks
     private AuthenticationController authenticationController;
@@ -30,25 +26,25 @@ class AuthenticationControllerTest {
     void register_whenValidRequest_thenReturnRegisteredUser() {
         RegisterUserDto dto = new RegisterUserDto();
         Users user = new Users();
-        when(authenticationService.signup(dto)).thenReturn(user);
+        when(authFacade.signup(dto)).thenReturn(user);
 
         ResponseEntity<Users> response = authenticationController.register(dto);
 
         assertNotNull(response.getBody());
-        verify(authenticationService, times(1)).signup(dto);
+        verify(authFacade, times(1)).signup(dto);
     }
 
     @Test
     void authenticate_whenUserIsValid_thenReturnJwtToken() {
         LoginUserDto dto = new LoginUserDto();
         Users user = new Users();
-        when(authenticationService.authenticate(dto)).thenReturn(user);
-        when(jwtService.generateToken(user)).thenReturn("token");
+        when(authFacade.authenticate(dto)).thenReturn(user);
+        when(authFacade.generateToken(user)).thenReturn("token");
 
         ResponseEntity<LoginResponse> response = authenticationController.authenticate(dto);
 
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().getToken());
-        verify(authenticationService, times(1)).authenticate(dto);
+        verify(authFacade, times(1)).authenticate(dto);
     }
 }
