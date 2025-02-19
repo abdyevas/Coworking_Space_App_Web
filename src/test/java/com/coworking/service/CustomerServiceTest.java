@@ -1,82 +1,85 @@
-// package com.coworking.service;
+package com.coworking.service;
 
-// import com.coworking.model.Reservations;
-// import com.coworking.model.Spaces;
-// import com.coworking.repository.ReservationsRepository;
-// import com.coworking.repository.SpacesRepository;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.mockito.*;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import java.time.LocalDate;
-// import java.time.LocalTime;
-// import java.util.Arrays;
-// import java.util.List;
-// import java.util.Optional;
-// import static org.mockito.Mockito.*;
-// import static org.junit.jupiter.api.Assertions.*;
+import com.coworking.model.Reservations;
+import com.coworking.model.Spaces;
+import com.coworking.repository.ReservationsRepository;
+import com.coworking.repository.SpacesRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-// @SpringBootTest
-// public class CustomerServiceTest {
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-//     @Mock
-//     private SpacesRepository spacesRepository;
+@ExtendWith(MockitoExtension.class)
+public class CustomerServiceTest {
 
-//     @Mock
-//     private ReservationsRepository reservationsRepository;
+    @Mock
+    private SpacesRepository spacesRepository;
 
-//     @InjectMocks
-//     private CustomerService customerService;
+    @Mock
+    private ReservationsRepository reservationsRepository;
 
-//     private Spaces space;
-//     private Reservations reservation;
+    @InjectMocks
+    private CustomerService customerService;
 
-//     @BeforeEach
-//     void setUp() {
-//         space = new Spaces("Type1", 100.0);
-//         reservation = new Reservations("Customer", space, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1));
-//     }
+    private Spaces space;
+    private Reservations reservation;
 
-//     @Test
-//     void whenGetAvailableSpaces_thenReturnAvailableSpaces() {
-//         space.setAvailable(true);
-//         when(spacesRepository.findAll()).thenReturn(Arrays.asList(space));
+    @BeforeEach
+    void setUp() {
+        space = new Spaces("Type1", 100.0);
+        reservation = new Reservations("Customer", space, LocalDate.now(), LocalTime.now(), LocalTime.now().plusHours(1));
+    }
 
-//         List<Spaces> availableSpaces = customerService.getAvailableSpaces();
+    @Test
+    void whenGetAvailableSpaces_thenReturnAvailableSpaces() {
+        space.setAvailable(true);
+        when(spacesRepository.findAll()).thenReturn(Arrays.asList(space));
 
-//         assertEquals(1, availableSpaces.size());
-//         assertTrue(availableSpaces.contains(space));
-//     }
+        List<Spaces> availableSpaces = customerService.getAvailableSpaces();
 
-//     @Test
-//     void givenNewReservation_whenReserved_thenAddedToDb() {
-//         when(spacesRepository.findById(1)).thenReturn(Optional.of(space));
-//         when(reservationsRepository.save(any(Reservations.class))).thenReturn(reservation);
+        assertEquals(1, availableSpaces.size());
+        assertTrue(availableSpaces.contains(space));
+    }
 
-//         customerService.makeReservation("Customer", 1, "2025-02-18", "10:00", "11:00");
+    @Test
+    void givenNewReservation_whenReserved_thenAddedToDb() {
+        when(spacesRepository.findById(1)).thenReturn(Optional.of(space));
+        when(reservationsRepository.save(any(Reservations.class))).thenReturn(reservation);
 
-//         verify(reservationsRepository, times(1)).save(any(Reservations.class));
-//         assertFalse(space.isAvailable());
-//         verify(spacesRepository, times(1)).save(space);
-//     }
+        customerService.makeReservation("Customer", 1, "2025-02-18", "10:00", "11:00");
 
-//     @Test
-//     void givenExistingReservation_whenCancelled_thenRemovedFromDb() {
-//         when(reservationsRepository.findById(1)).thenReturn(Optional.of(reservation));
+        verify(reservationsRepository, times(1)).save(any(Reservations.class));
+        assertFalse(space.isAvailable());
+        verify(spacesRepository, times(1)).save(space);
+    }
 
-//         customerService.cancelReservation(1);
+    @Test
+    void givenExistingReservation_whenCancelled_thenRemovedFromDb() {
+        when(reservationsRepository.findById(1)).thenReturn(Optional.of(reservation));
 
-//         verify(reservationsRepository, times(1)).deleteById(1);
-//         assertTrue(space.isAvailable());
-//         verify(spacesRepository, times(1)).save(space);
-//     }
+        customerService.cancelReservation(1);
 
-//     @Test
-//     void whenGetAllReservations_thenReturnReservations() {
-//         when(reservationsRepository.findAll()).thenReturn(List.of(reservation));
+        verify(reservationsRepository, times(1)).deleteById(1);
+        assertTrue(space.isAvailable());
+        verify(spacesRepository, times(1)).save(space);
+    }
 
-//         List<Reservations> reservations = customerService.getAllReservations();
+    @Test
+    void whenGetAllReservations_thenReturnReservations() {
+        when(reservationsRepository.findAll()).thenReturn(List.of(reservation));
 
-//         assertEquals(1, reservations.size());
-//     }
-// }
+        List<Reservations> reservations = customerService.getAllReservations();
+
+        assertEquals(1, reservations.size());
+    }
+}
